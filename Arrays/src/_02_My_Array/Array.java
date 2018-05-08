@@ -33,6 +33,8 @@ public class Array {
      * @param array
      */
     public Array(int[] array) {
+
+        size = array.length;
         data = new int[array.length];
         System.arraycopy(array, 0, data, 0, array.length);
     }
