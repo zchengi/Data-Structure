@@ -248,13 +248,11 @@ public class Array {
     public boolean removeAllElement(int e) {
 
         boolean flag = false;
-        while (true) {
-            int index = find(e);
-            if (index != -1) {
-                remove(index);
+        for (int i = 0; i < size; i++) {
+            if (data[i] == e) {
+                // 因为删除一个元素后，该元素之后的所有元素向前移动一位，所以 i--，再从当前元素查找
+                remove(i--);
                 flag = true;
-            } else {
-                break;
             }
         }
 
