@@ -123,7 +123,7 @@ public class Array<E> {
      * @param e
      */
     public void set(int index, E e) {
-        if (index <= 0 || index >= size) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Set failed. Index is illegal.");
         }
         data[index] = e;
@@ -136,7 +136,7 @@ public class Array<E> {
      * @return
      */
     public E get(int index) {
-        if (index <= 0 || index >= size) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Get failed. Index is illegal.");
         }
         return data[index];
