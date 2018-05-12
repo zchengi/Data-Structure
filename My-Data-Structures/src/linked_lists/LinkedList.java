@@ -1,4 +1,4 @@
-package linkedlists;
+package linked_lists;
 
 /**
  * @author cheng
