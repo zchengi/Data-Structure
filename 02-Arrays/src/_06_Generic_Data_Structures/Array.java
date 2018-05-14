@@ -35,7 +35,7 @@ public class Array<E> {
      *
      * @param array
      */
-    public Array(Object[] array) {
+    public Array(E[] array) {
 
         size = array.length;
         data = (E[]) new Object[array.length];
