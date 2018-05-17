@@ -5,6 +5,7 @@ import _03_Quick_Union.UnionFind2;
 import _04_Optimized_by_Size.UnionFind3;
 import _05_Optimized_by_Rank.UnionFind4;
 import _06_Path_Compression.UnionFind5;
+import _07_More_about_Union_Find.UnionFind6;
 
 import java.util.Random;
 
@@ -57,5 +58,8 @@ public class Main {
 
         UnionFind5 unionFind5 = new UnionFind5(size);
         System.out.println("UnionFind5: " + testUF(unionFind5, m) + " s");
+
+        UnionFind6 unionFind6 = new UnionFind6(size);
+        System.out.println("UnionFind6: " + testUF(unionFind6, m) + " s");
     }
 }
