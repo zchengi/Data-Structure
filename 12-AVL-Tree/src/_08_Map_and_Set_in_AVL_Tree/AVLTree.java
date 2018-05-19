@@ -1,4 +1,4 @@
-package _07_Remove_Elements_in_AVL_Tree;
+package _08_Map_and_Set_in_AVL_Tree;
 
 import utils.FileOperation;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * @author cheng
- *         2018/5/18 16:36
+ *         2018/5/18 16:15
  */
 public class AVLTree<K extends Comparable<K>, V> {
 
@@ -130,14 +130,13 @@ public class AVLTree<K extends Comparable<K>, V> {
             return null;
         }
 
-        Node retNode;
         int cmp = key.compareTo(node.key);
         if (cmp < 0) {
             node.left = remove(node.left, key);
-            retNode = node;
+            return node;
         } else if (cmp > 0) {
             node.right = remove(node.right, key);
-            retNode = node;
+            return node;
         } else {
 
             // 待删除节点左子树为空的情况
@@ -145,64 +144,29 @@ public class AVLTree<K extends Comparable<K>, V> {
                 Node rightNode = node.right;
                 node.right = null;
                 size--;
-                retNode = rightNode;
-            } else if (node.right == null) {
-                // 待删除节点右子树为空的情况
+                return rightNode;
+            }
+
+            // 待删除节点右子树为空的情况
+            if (node.right == null) {
                 Node leftNode = node.left;
                 node.left = null;
                 size--;
-                retNode = leftNode;
-            } else {
-                // 待删除节点左右子树均不为空的情况
-
-                // 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
-                // 用这个节点顶替待删除节点的位置
-                Node successor = minimum(node.right);
-                // successor.right = removeMin(node.right);
-                successor.right = remove(node.right, successor.key);
-                successor.left = node.left;
-
-                node.left = node.right = null;
-
-                retNode = successor;
+                return leftNode;
             }
+
+            // 待删除节点左右子树均不为空的情况
+
+            // 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
+            // 用这个节点顶替待删除节点的位置
+            Node successor = minimum(node.right);
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
+
+            node.left = node.right = null;
+
+            return successor;
         }
-
-        if (retNode == null) {
-            return null;
-        }
-
-        // 更新 height
-        retNode.height = 1 + Math.max(getHeight(retNode.left), getHeight(retNode.right));
-
-        // 计算平衡因子
-        int balanceFactor = getBalanceFactor(retNode);
-
-        // 平衡维护
-
-        // LL
-        if (balanceFactor > 1 && getBalanceFactor(retNode.left) >= 0) {
-            return rightRotate(retNode);
-        }
-
-        // RR
-        if (balanceFactor < -1 && getBalanceFactor(retNode.right) <= 0) {
-            return leftRotate(retNode);
-        }
-
-        // LR
-        if (balanceFactor > 1 && getBalanceFactor(retNode.left) < 0) {
-            retNode = leftRotate(retNode.left);
-            return rightRotate(retNode);
-        }
-
-        // RL
-        if (balanceFactor < -1 && getBalanceFactor(retNode.right) > 0) {
-            retNode.right = rightRotate(retNode.right);
-            return leftRotate(retNode);
-        }
-
-        return retNode;
     }
 
     /**
@@ -216,6 +180,26 @@ public class AVLTree<K extends Comparable<K>, V> {
             return node;
         }
         return minimum(node.left);
+    }
+
+    /**
+     * 删除掉以node为根的二分搜索树中的最小节点
+     * 返回删除节点后新的二分搜索树的根
+     *
+     * @param node
+     * @return
+     */
+    private Node removeMin(Node node) {
+
+        if (node.left == null) {
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
     }
 
     /**
@@ -426,14 +410,6 @@ public class AVLTree<K extends Comparable<K>, V> {
             System.out.println("Frequency of PREJUDICE: " + map.get("prejudice"));
             System.out.println(map.isBST());
             System.out.println(map.isBalanced());
-
-            for (String word : words) {
-                map.remove(word);
-                if (!map.isBST() || !map.isBalanced()) {
-                    throw new RuntimeException("Error.");
-                }
-            }
-            System.out.println("Delete success.");
         }
     }
 }
